@@ -1,0 +1,727 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background: #252526;
+    padding: 15px 20px;
+    border-bottom: 1px solid #3e3e42;
+}
+
+header h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.beta-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    background: linear-gradient(135deg, #007acc 0%, #00d4aa 100%);
+    color: #ffffff;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.repo-info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.repo-info input {
+    flex: 1;
+    padding: 8px 12px;
+    background: #3c3c3c;
+    border: 1px solid #555555;
+    border-radius: 3px;
+    color: #d4d4d4;
+    font-size: 13px;
+}
+
+.repo-info input:focus {
+    outline: none;
+    border-color: #007acc;
+}
+
+button {
+    padding: 8px 16px;
+    background: #0e639c;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #1177bb;
+}
+
+button:active {
+    background: #0d5a8c;
+}
+
+.repo-details {
+    background: #2d2d30;
+    padding: 10px 20px;
+    border-bottom: 1px solid #3e3e42;
+}
+
+.info-bar {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    font-size: 13px;
+}
+
+.info-bar span {
+    color: #cccccc;
+}
+
+.info-bar strong {
+    color: #ffffff;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.left-panel {
+    width: 350px;
+    background: #252526;
+    border-right: 1px solid #3e3e42;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-panel {
+    flex: 1;
+    background: #1e1e1e;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.section {
+    background: #2d2d30;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.section h3 {
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Branches */
+.branch-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.branch-actions button {
+    flex: 1;
+    font-size: 12px;
+    padding: 6px 10px;
+}
+
+.branch-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.branch-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: #3c3c3c;
+    border-radius: 3px;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.branch-item:hover {
+    background: #4a4a4a;
+}
+
+.branch-item.active {
+    background: #094771;
+    font-weight: 600;
+}
+
+.branch-item.remote {
+    background: #2d2d30;
+    color: #858585;
+}
+
+.branch-name {
+    flex: 1;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: #c74634;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+}
+
+.delete-btn:hover {
+    background: #e81123;
+}
+
+.branch-separator {
+    margin: 10px 0 5px 0;
+    font-size: 11px;
+    color: #858585;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Status */
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #3c3c3c;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+
+.status-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.status-modified .status-badge {
+    background: #e2c08d;
+    color: #000;
+}
+
+.status-added .status-badge {
+    background: #89d185;
+    color: #000;
+}
+
+.status-deleted .status-badge {
+    background: #f48771;
+    color: #000;
+}
+
+.status-untracked .status-badge {
+    background: #73c991;
+    color: #000;
+}
+
+.file-name {
+    flex: 1;
+    font-family: 'Consolas', 'Monaco', monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.status-item button {
+    padding: 4px 10px;
+    font-size: 11px;
+}
+
+.no-changes {
+    padding: 20px;
+    text-align: center;
+    color: #858585;
+    font-style: italic;
+}
+
+/* Commit Section */
+.commit-section {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+.commit-section input {
+    flex: 1;
+    padding: 8px 12px;
+    background: #3c3c3c;
+    border: 1px solid #555555;
+    border-radius: 3px;
+    color: #d4d4d4;
+    font-size: 13px;
+}
+
+.commit-section input:focus {
+    outline: none;
+    border-color: #007acc;
+}
+
+/* Actions */
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.action-buttons button {
+    width: 100%;
+}
+
+/* Commit Graph */
+.graph-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.graph-controls label {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 13px;
+}
+
+.graph-controls input[type="number"] {
+    width: 60px;
+    padding: 6px 8px;
+    background: #3c3c3c;
+    border: 1px solid #555555;
+    border-radius: 3px;
+    color: #d4d4d4;
+    font-size: 13px;
+}
+
+.commit-graph {
+    display: flex;
+    flex-direction: column;
+}
+
+.commit-node {
+    margin-bottom: 2px;
+}
+
+.commit-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.graph-canvas {
+    flex-shrink: 0;
+}
+
+.commit-dot {
+    width: 12px;
+    height: 12px;
+    background: #007acc;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.commit-dot::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    width: 2px;
+    height: 30px;
+    background: #3e3e42;
+    transform: translateX(-50%);
+}
+
+.commit-node:last-child .commit-dot::after {
+    display: none;
+}
+
+.commit-info {
+    flex: 1;
+    padding: 4px 0 8px 0;
+}
+
+.commit-message {
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.commit-branches {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.branch-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #094771;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.branch-tag.branch-local {
+    background: #0e639c;
+    border: 1px solid #1177bb;
+}
+
+.branch-tag.branch-remote {
+    background: #2d2d30;
+    border: 1px solid #555555;
+    color: #cccccc;
+}
+
+.commit-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 12px;
+    color: #858585;
+}
+
+.commit-sha {
+    font-family: 'Consolas', 'Monaco', monospace;
+    background: #3c3c3c;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.no-commits {
+    padding: 40px 20px;
+    text-align: center;
+    color: #858585;
+    font-style: italic;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #2d2d30;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    padding: 25px;
+    min-width: 400px;
+    max-width: 500px;
+}
+
+.modal-content h2 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.modal-content input,
+.modal-content select {
+    width: 100%;
+    padding: 8px 12px;
+    background: #3c3c3c;
+    border: 1px solid #555555;
+    border-radius: 3px;
+    color: #d4d4d4;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+    outline: none;
+    border-color: #007acc;
+}
+
+.modal-content label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.modal-content input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    flex: 1;
+}
+
+.credentials {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Notifications */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateX(400px);
+    transition: all 0.3s ease;
+    z-index: 2000;
+    max-width: 400px;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification-success {
+    background: #89d185;
+    color: #000;
+}
+
+.notification-error {
+    background: #f48771;
+    color: #000;
+}
+
+.notification-warning {
+    background: #e2c08d;
+    color: #000;
+}
+
+.notification-info {
+    background: #007acc;
+    color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #424242;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4e4e4e;
+}
+
+/* Commit Details Modal */
+.commit-details-modal {
+    min-width: 500px;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.commit-details-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.detail-row {
+    display: flex;
+    gap: 12px;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #ffffff;
+    min-width: 80px;
+    flex-shrink: 0;
+}
+
+.detail-value {
+    color: #cccccc;
+    word-break: break-all;
+}
+
+.sha-value {
+    font-family: 'Consolas', 'Monaco', monospace;
+    background: #3c3c3c;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.message-row {
+    flex-direction: column;
+    gap: 8px;
+}
+
+.message-value {
+    background: #3c3c3c;
+    padding: 12px;
+    border-radius: 3px;
+    font-family: inherit;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    font-size: 13px;
+}
+
+.files-row {
+    flex-direction: column;
+    gap: 8px;
+}
+
+.files-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: #3c3c3c;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.file-status {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.file-status.status-added {
+    background: #89d185;
+    color: #000;
+}
+
+.file-status.status-modified {
+    background: #e2c08d;
+    color: #000;
+}
+
+.file-status.status-deleted {
+    background: #f48771;
+    color: #000;
+}
+
+.file-path {
+    font-family: 'Consolas', 'Monaco', monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Make commit nodes clickable */
+.commit-node {
+    cursor: pointer;
+    transition: background 0.2s;
+    padding: 4px;
+    margin: -4px;
+    margin-bottom: 2px;
+    border-radius: 4px;
+}
+
+.commit-node:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Made in lab text */
+.made-in-lab {
+    text-align: center;
+    font-size: 11px;
+    color: #858585;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #3e3e42;
+}
+
+.made-in-lab a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.made-in-lab a:hover {
+    text-decoration: underline;
+}

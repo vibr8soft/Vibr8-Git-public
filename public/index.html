@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibr8-Git from Vibr8Soft Consulting inc.</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔧 Vibr8-Git <span class="beta-tag">BETA</span></h1>
+            <div class="repo-info">
+                <input type="text" id="repoPath" placeholder="Repository path (e.g., C:\Users\YourName\myrepo)" />
+                <button onclick="loadRepo()">Load Repository</button>
+                <button onclick="showCloneDialog()">Clone Repository</button>
+            </div>
+        </header>
+
+        <div id="repoDetails" class="repo-details" style="display: none;">
+            <div class="info-bar">
+                <span><strong>Branch:</strong> <span id="currentBranch">-</span></span>
+                <span><strong>Remote:</strong> <span id="remoteUrl">-</span></span>
+                <button onclick="refreshAll()">🔄 Refresh</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Left Panel: Branches & Actions -->
+            <div class="left-panel">
+                <div class="section">
+                    <h3>Branches</h3>
+                    <div class="branch-actions">
+                        <button onclick="showCreateBranchDialog()">+ New Branch</button>
+                        <button onclick="fetchRemote()">⬇️ Fetch</button>
+                    </div>
+                    <div class="branch-list" id="branchList"></div>
+                </div>
+
+                <div class="section">
+                    <h3>Working Directory</h3>
+                    <div id="statusList"></div>
+                    <div class="commit-section">
+                        <input type="text" id="commitMessage" placeholder="Commit message" />
+                        <button onclick="commitChanges()">💾 Commit</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Actions</h3>
+                    <div class="action-buttons">
+                        <button onclick="pullChanges()">⬇️ Pull</button>
+                        <button onclick="pushChanges()">⬆️ Push</button>
+                        <button onclick="showMergeDialog()">🔀 Merge</button>
+                    </div>
+                </div>
+
+                <div class="made-in-lab">Made in the <a href="https://vibr8lab.work" target="_blank">Vibr8Lab</a></div>
+            </div>
+
+            <!-- Right Panel: Commit Graph -->
+            <div class="right-panel">
+                <div class="section">
+                    <h3>Commit History</h3>
+                    <div class="graph-controls">
+                        <label>
+                            <input type="number" id="logDepth" value="50" min="10" max="500" />
+                            commits
+                        </label>
+                        <button onclick="loadCommits()">Refresh Graph</button>
+                    </div>
+                    <div class="commit-graph" id="commitGraph"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clone Dialog -->
+    <div id="cloneDialog" class="modal">
+        <div class="modal-content">
+            <h2>Clone Repository</h2>
+            <input type="text" id="cloneUrl" placeholder="Repository URL (e.g., https://github.com/user/repo.git)" />
+            <input type="text" id="cloneDir" placeholder="Local directory path" />
+            <div class="credentials">
+                <input type="text" id="cloneUsername" placeholder="Username (optional)" />
+                <input type="password" id="clonePassword" placeholder="Password/Token (optional)" />
+            </div>
+            <div class="modal-actions">
+                <button onclick="cloneRepo()">Clone</button>
+                <button onclick="closeDialog('cloneDialog')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Branch Dialog -->
+    <div id="createBranchDialog" class="modal">
+        <div class="modal-content">
+            <h2>Create New Branch</h2>
+            <input type="text" id="newBranchName" placeholder="Branch name" />
+            <label>
+                <input type="checkbox" id="checkoutNewBranch" checked />
+                Checkout after creation
+            </label>
+            <div class="modal-actions">
+                <button onclick="createBranch()">Create</button>
+                <button onclick="closeDialog('createBranchDialog')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Merge Dialog -->
+    <div id="mergeDialog" class="modal">
+        <div class="modal-content">
+            <h2>Merge Branch</h2>
+            <select id="mergeBranchSelect"></select>
+            <div class="modal-actions">
+                <button onclick="mergeBranch()">Merge</button>
+                <button onclick="closeDialog('mergeDialog')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Author Config Dialog -->
+    <div id="authorDialog" class="modal">
+        <div class="modal-content">
+            <h2>Configure Author</h2>
+            <input type="text" id="authorName" placeholder="Your name" />
+            <input type="email" id="authorEmail" placeholder="Your email" />
+            <div class="modal-actions">
+                <button onclick="saveAuthor()">Save</button>
+                <button onclick="closeDialog('authorDialog')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Commit Details Dialog -->
+    <div id="commitDetailsDialog" class="modal">
+        <div class="modal-content commit-details-modal">
+            <h2>Commit Details</h2>
+            <div class="commit-details-content">
+                <div class="detail-row">
+                    <span class="detail-label">SHA:</span>
+                    <span id="detailSha" class="detail-value sha-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Author:</span>
+                    <span id="detailAuthor" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date:</span>
+                    <span id="detailDate" class="detail-value"></span>
+                </div>
+                <div class="detail-row message-row">
+                    <span class="detail-label">Message:</span>
+                    <pre id="detailMessage" class="detail-value message-value"></pre>
+                </div>
+                <div class="detail-row files-row">
+                    <span class="detail-label">Files Changed:</span>
+                    <div id="detailFiles" class="files-list"></div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeDialog('commitDetailsDialog')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
